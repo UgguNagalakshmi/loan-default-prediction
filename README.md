@@ -41,7 +41,9 @@ loan_api/
    | **Gradient Boosting (selected)** | **0.868** | **0.402** |
 
 4. **Preprocessing**
-   * The dataset has no missing values, so no imputation was required.
+  * Missing `dependents` values were filled with 0, on the assumption that a blank means no dependents.
+   * Missing `monthly_income` values were filled with the median income.
+   * After cleaning, the dataset has no missing values.
 5. **Decision Threshold Tuning**
    * Because defaulters are rare, the default 0.50 cutoff misses most of them (recall 17.6%), so the cutoff was tuned.
 
