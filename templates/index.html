@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Default Risk Predictor</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #d1d5db;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            padding: 35px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 650px;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 1.6rem;
+        }
+
+        p.subtitle {
+            color: var(--text-light);
+            font-size: 0.92rem;
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        input {
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        }
+
+        button {
+            grid-column: span 2;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-box {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .safe {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .flagged {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            button {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Loan Default Risk Predictor</h2>
+    <p class="subtitle">Enter financial background and credit record metrics below.</p>
+
+    <form action="/predict" method="post" class="form-grid">
+        <div class="form-group">
+            <label for="credit_utilization">Credit Utilization</label>
+            <input type="number" step="any" name="credit_utilization" value="0.35" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" name="age" value="45" required>
+        </div>
+
+        <div class="form-group">
+            <label for="late_30_59">Late 30-59 Days</label>
+            <input type="number" name="late_30_59" value="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="late_60_89">Late 60-89 Days</label>
+            <input type="number" name="late_60_89" value="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="late_90_plus">Late 90+ Days</label>
+            <input type="number" name="late_90_plus" value="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="debt_ratio">Debt Ratio</label>
+            <input type="number" step="any" name="debt_ratio" value="0.25" required>
+        </div>
+
+        <div class="form-group">
+            <label for="monthly_income">Monthly Income</label>
+            <input type="number" step="any" name="monthly_income" value="6500">
+        </div>
+
+        <div class="form-group">
+            <label for="open_credit_lines">Open Credit Lines</label>
+            <input type="number" name="open_credit_lines" value="8" required>
+        </div>
+
+        <div class="form-group">
+            <label for="real_estate_loans">Real Estate Loans</label>
+            <input type="number" name="real_estate_loans" value="1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="dependents">Dependents</label>
+            <input type="number" name="dependents" value="0">
+        </div>
+
+        <button type="submit">Predict Risk</button>
+    </form>
+
+    {% if result %}
+        <div class="result-box {{ status }}">
+            {{ result }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
